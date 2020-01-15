@@ -73,7 +73,7 @@ typedef enum {
  *  \exception  ET_RESOURCE_DEP       another core is actively changing the port.
  *  \exception  ET_LOAD_STORE         invalid *\*p* argument.
  */
-inline port port_start(port_id_t id)
+inline port port_alloc(port_id_t id)
 {
   return _port_alloc(id);
 }
@@ -671,7 +671,7 @@ inline uint32_t port_out_shift_right(port p, uint32_t data)
  *  \exception  ET_RESOURCE_DEP       another core is actively changing the port.
  *  \exception  ET_LOAD_STORE         invalid *\*data* argument.
  */
-inline void port_in_shift_right(port p, uint32_t data)
+inline uint32_t port_in_shift_right(port p, uint32_t data)
 {
   return _port_in_shift_right(p, data);
 }

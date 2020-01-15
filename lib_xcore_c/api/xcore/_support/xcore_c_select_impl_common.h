@@ -67,7 +67,6 @@ inline void _select_event_enable_if_true(const resource_t resource, const int co
   {
     _select_event_set_enable(resource, condition);
   }
-  return condition;
 }
 
 inline void _select_event_enable_if_false(const resource_t resource, const int condition)
@@ -87,7 +86,6 @@ inline void _select_event_enable_if_false(const resource_t resource, const int c
   {
     _select_event_set_enable_inv(resource, condition);
   }
-  return condition;
 }
 
 inline void _register_event_vector(const resource_t resource, void * const vector)

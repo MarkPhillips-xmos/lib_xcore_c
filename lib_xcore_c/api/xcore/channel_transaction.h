@@ -7,9 +7,9 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <xcore/_support/xcore_c_channel_streaming.h>
+//#include <xcore/_support/xcore_c_channel_streaming.h>
 #include <xcore/_support/xcore_c_chan_impl.h>
-#include <xcore/_support/xcore_c_exception_impl.h>
+// #include <xcore/_support/xcore_c_exception_impl.h>
 
 /** Start a transaction (master).
  *
@@ -37,7 +37,7 @@
  *  \exception  ET_RESOURCE_DEP       another core is actively using the chan-end.
  *  \exception  ET_LOAD_STORE         invalid *\*c* or *\*tc* argument.
  */
-inline transacting_chanend_t chan_init_transaction_master(chanend)
+inline transacting_chanend_t chan_init_transaction_master(chanend c)
 {
   _s_chan_out_ct_end(c);
 
@@ -113,6 +113,7 @@ inline void chan_complete_transaction(transacting_chanend_t tc)
     _s_chan_check_ct_end(tc.c);
     _s_chan_out_ct_end(tc.c);
   }
+  tc.c = 0;
 }
 
 /** Output a word over a transacting chan-end.

@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <xcore/_support/xcore_c_port_impl.h>
 #include <xcore/_support/xcore_c_clock_impl.h>
-#include <xcore/_support/xcore_c_exception_impl.h>
+// #include <xcore/_support/xcore_c_exception_impl.h>
 
 /** Configure a port to be a clocked input port in handshake mode.
  *
@@ -224,8 +224,7 @@ inline void port_protocol_in_strobed_slave(port p, port readyin, clock clk)
  *                                    or readyin not a one bit port.
  *  \exception  ET_RESOURCE_DEP       another core is actively changing a port/clock
  */
-inline xcore_c_error_t
-port_protocol_out_strobed_slave(port p, port readyin, clock clk, uint32_t initial)
+inline void port_protocol_out_strobed_slave(port p, port readyin, clock clk, uint32_t initial)
 {
   _port_set_inout_data(p);
   _port_set_buffered(p);

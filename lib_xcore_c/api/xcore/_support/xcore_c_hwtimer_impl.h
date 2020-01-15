@@ -74,6 +74,13 @@ inline void _hwtimer_set_trigger_time(hwtimer_t t, uint32_t time)
   _hwtimer_change_trigger_time(t, time);
 }
 
+inline uint32_t _hwtimer_get_trigger_time(hwtimer_t t)
+{
+uint32_t tval;
+  asm volatile ("getd %0, res[%1]" : "=r" (tval) : "r" (t));
+  return tval;
+}
+
 inline void _hwtimer_clear_trigger_time(hwtimer_t t)
 {
   _RESOURCE_SETCI(t, XS1_SETC_COND_NONE);
