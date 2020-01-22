@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <xcore/_support/xcore_c_hwtimer_impl.h>
 #include <xcore/_support/xcore_c_resource_impl.h>
-// #include <xcore/_support/xcore_c_exception_impl.h>
+#include <xcore/_support/xcore_c_exception_impl.h>
 
 /** Deallocate the xC timer resource for a thread
  *
@@ -129,23 +129,6 @@ inline void hwtimer_set_trigger_time(hwtimer_t t, uint32_t time)
   _hwtimer_set_trigger_time(t, time);
 }
 
-/** Get the trigger time value.
- *
- *  The trigger time value is set using hwtimer_set_trigger_time()/
- *  The trigger may be cleared using hwtimer_clear_trigger_time().
- *
- *  \param t    The timer whose time value is requested.
- *
- *  \return     The time value
- *
- *  \exception  ET_ILLEGAL_RESOURCE   not a valid timer.
- *  \exception  ET_RESOURCE_DEP       another core is actively using the timer.
- */
-inline uint32_t hwtimer_get_trigger_time(hwtimer_t t)
-{
-  return _hwtimer_get_trigger_time(t);
-}
-
 /** Change the time at which a timer trigger will fire.
  *
  *  This function modifies the time at which a previously setup triggers fire.
@@ -201,7 +184,7 @@ inline void hwtimer_clear_trigger_time(hwtimer_t t)
 inline uint32_t hwtimer_wait_until(hwtimer_t t, uint32_t until)
 {
   _hwtimer_set_trigger_time(t, until);
-  uint32_t now = _hwtimer_get_time(t);
+  uint32_t now = _hwtimer_get_time(t, now);
   _hwtimer_clear_trigger_time(t);
   return now;
 }
