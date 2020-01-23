@@ -143,6 +143,24 @@ inline void hwtimer_clear_trigger_time(hwtimer_t t)
   _hwtimer_clear_trigger_time(t);
 }
 
+/** Get the trigger time value.
+ *
+ *  The trigger time value is set using hwtimer_set_trigger_time()/
+ *  The trigger may be cleared using hwtimer_clear_trigger_time().
+ *
+ *  \param t    The timer whose time value is requested.
+ *
+ *  \return     The time value
+ *
+ *  \exception  ET_ILLEGAL_RESOURCE   not a valid timer.
+ *  \exception  ET_RESOURCE_DEP       another core is actively using the timer.
+ */
+inline uint32_t hwtimer_get_trigger_time(hwtimer_t t)
+{
+  return _hwtimer_get_trigger_time(t);
+}
+
+
 /** \brief Wait until after a specified time.
  *
  *  \attention This will destroy any select or interrupt event triggers set on this resource.

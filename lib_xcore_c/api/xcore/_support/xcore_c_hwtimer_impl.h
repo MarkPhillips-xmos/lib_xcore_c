@@ -63,6 +63,13 @@ inline uint32_t _hwtimer_get_time(hwtimer_t t)
   return now;
 }
 
+inline uint32_t _hwtimer_get_trigger_time(hwtimer_t t)
+{
+  uint32_t tval;
+  asm volatile ("getd %0, res[%1]" : "=r" (tval) : "r" (t));
+  return tval;
+}
+
 inline void _hwtimer_change_trigger_time(hwtimer_t t, uint32_t time)
 {
   asm volatile("setd res[%0], %1" :: "r" (t), "r" (time));

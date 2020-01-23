@@ -44,7 +44,7 @@ inline void port_enable(port_id_t p)
 
 /** \brief Reset a port.
  *
- *  Clears a ports settings back to the default state at port_alloc().
+ *  Clears a ports settings back to the default state at port_enable().
  *
  *  \param p  The port to be reset
  *
@@ -828,6 +828,55 @@ inline size_t port_force_input(port_id_t p, uint32_t *data)
   size_t num = _port_endin(p);
   *data = _port_in(p);
   return num;
+}
+
+/** Setup select events on a port.
+ *
+ *  Configures a port to trigger select events when ready. By default a
+ *  port will trigger when there is data available. The trigger event can be
+ *  changed using the port_set_trigger_*() function.
+ *
+ *  Once the select event is setup you need to call port_enable_trigger() to enable it.
+ *
+ *  \param p        The port to setup the select event on
+ *  \param enum_id  The value to be returned by select_wait() et al when the
+ *                  port event is triggered.
+ *                  On XS1 bit 16 must be set (see ENUM_ID_BASE)
+ *
+ *  \return     No return value
+ *
+ *  \exception  ET_ILLEGAL_RESOURCE   not a valid port.
+ *  \exception  ET_RESOURCE_DEP       another core is actively using the port.
+ *  \exception  ET_ECALL              when xassert enabled, on XS1 bit 16 not set in enum_id.
+ */
+inline void port_setup_select(port p, uint32_t enum_id)
+{
+  _resource_setup_select(p, enum_id);
+  _port_clear_trigger_in(p);
+}
+
+/** Setup select events on a port where the events are handled by a function.
+ *
+ *  Same as port_setup_select() except that a callback function is used
+ *  rather than the event being passed back to the select_wait() et al functions.
+ *
+ *  Once the event is setup you need to call port_enable_trigger() to enable it.
+ *
+ *  \param p      The port to setup the select event on
+ *  \param data   The value to be passed to the select_callback_t function
+ *                On XS1 bit 16 must be set (see ENUM_ID_BASE)
+ *  \param func   The select_callback_t function to handle events
+ *
+ *  \return     No return value
+ *
+ *  \exception  ET_ILLEGAL_RESOURCE   not a valid port.
+ *  \exception  ET_RESOURCE_DEP       another core is actively using the port.
+ *  \exception  ET_ECALL              when xassert enabled, on XS1 bit 16 not set in data.
+ */
+inline void port_setup_select_callback(port p, void *data, select_callback_t func)
+{
+  _resource_setup_select_callback(p, data, func);
+  _port_clear_trigger_in(p);
 }
 
 /** \brief Setup interrupt event on a port.
